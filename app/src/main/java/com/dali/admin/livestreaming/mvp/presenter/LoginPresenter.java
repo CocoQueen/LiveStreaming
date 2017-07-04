@@ -161,7 +161,7 @@ public class LoginPresenter extends ILoginPresenter implements IMLogin.IMLoginLi
                         //IM登录
                         mIMLogin.imLogin(info.getUserId(), info.getSigId());
 
-                        mLoginView.loginSuccess();
+//                        mLoginView.loginSuccess();
                         Log.e("onSuccess","login success");
 
                     } else {

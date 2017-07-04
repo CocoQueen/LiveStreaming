@@ -14,10 +14,12 @@ import com.dali.admin.livestreaming.utils.OtherUtils;
 import java.util.List;
 
 /**
+ * 直播列表展示
  * Created by dali on 2017/5/16.
  */
 
 public class NewLiveListAdapter extends RecyclerViewAdapter<LiveInfo>{
+
 
     public NewLiveListAdapter(Context context, List<LiveInfo> datas) {
         super(context, R.layout.list_live_item, datas);
@@ -47,5 +49,6 @@ public class NewLiveListAdapter extends RecyclerViewAdapter<LiveInfo>{
                 .setImageResource(R.id.live_logo, R.drawable.icon_live);
         //主播头像（圆角显示图片）
         OtherUtils.showPicWithUrl(mContext, (ImageView) holder.getView(R.id.avatar), liveInfo.getUserInfo().getHeadPic(), R.drawable.default_head);
+
     }
 }

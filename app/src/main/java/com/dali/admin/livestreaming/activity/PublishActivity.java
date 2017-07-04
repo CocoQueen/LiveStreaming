@@ -151,7 +151,7 @@ public class PublishActivity extends BaseActivity implements View.OnClickListene
                         "不显示地理位置" : mTvLBS.getText().toString();
                 mPublishPresenter.doPublish(mTvTitle.getText().toString().trim(), mRecordType, location, mBitrateType, false);
 
-                startActivity(new Intent(this,LivePublishActivity.class));
+//                startActivity(new Intent(this,LivePublisherActivity.class));
                 break;
             //封面图片选择
             case R.id.cover:

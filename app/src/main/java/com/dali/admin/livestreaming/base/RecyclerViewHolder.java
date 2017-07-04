@@ -1,7 +1,6 @@
 package com.dali.admin.livestreaming.base;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.Checkable;
@@ -9,28 +8,29 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
+ * ViewHolder封装类
  * Created by dali on 2017/5/16.
  */
 
-public  class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     private SparseArray<View> mViews;
 
     private RecyclerViewAdapter.OnItemClickListener mOnItemClickListener;
-    @Override
-    public void onClick(View v) {
-        if (mOnItemClickListener!=null){
-            mOnItemClickListener.onItemClick(v,getLayoutPosition());
-            Log.e("RecyclerViewHolder",""+getLayoutPosition());
-        }
-    }
 
-    public RecyclerViewHolder(View itemView) {
+    public RecyclerViewHolder(View itemView, RecyclerViewAdapter.OnItemClickListener listener) {
         super(itemView);
         this.mViews = new SparseArray<>();
+        this.mOnItemClickListener = listener;
         itemView.setOnClickListener(this);
     }
 
+    @Override
+    public void onClick(View v) {
+        if (mOnItemClickListener != null) {
+            mOnItemClickListener.onItemClick(v, getLayoutPosition());
+        }
+    }
 
     /**
      * 从ItemView获取View
@@ -49,6 +49,7 @@ public  class RecyclerViewHolder extends RecyclerView.ViewHolder implements View
 
     /**
      * 设置TextView的值
+     *
      * @param viewId
      * @param text
      * @return
@@ -61,6 +62,7 @@ public  class RecyclerViewHolder extends RecyclerView.ViewHolder implements View
 
     /**
      * 设置ImageView的值
+     *
      * @param viewId
      * @param resId
      * @return
@@ -76,24 +78,28 @@ public  class RecyclerViewHolder extends RecyclerView.ViewHolder implements View
      * 第三方  ImageLoder Glide Picasso
      * 不能直接写死第三方图片加载
      * 使用自己的一套规范  ImageLoder
+     *
      * @param viewId
      * @return
      */
-    public RecyclerViewHolder setImagePath(int viewId,ImageLoder imageLoder) {
+    public RecyclerViewHolder setImagePath(int viewId, ImageLoder imageLoder) {
         ImageView view = getView(viewId);
-        imageLoder.loadImage(view,imageLoder.getPath());
+        imageLoder.loadImage(view, imageLoder.getPath());
         return this;
     }
 
 
     //图片加载 （对第三方库加载图片等封装）
-    public abstract static class ImageLoder{
+    public abstract static class ImageLoder {
         private String path;
-        public ImageLoder(String path){
+
+        public ImageLoder(String path) {
             this.path = path;
         }
+
         //需要复写该方法加载图片
-        public abstract void loadImage(ImageView imageView,String path);
+        public abstract void loadImage(ImageView imageView, String path);
+
         public String getPath() {
             return path;
         }
@@ -101,6 +107,7 @@ public  class RecyclerViewHolder extends RecyclerView.ViewHolder implements View
 
     /**
      * 设置是否可见
+     *
      * @param viewId
      * @param visible
      * @return
@@ -113,6 +120,7 @@ public  class RecyclerViewHolder extends RecyclerView.ViewHolder implements View
 
     /**
      * 设置tag
+     *
      * @param viewId
      * @param tag
      * @return
@@ -131,6 +139,7 @@ public  class RecyclerViewHolder extends RecyclerView.ViewHolder implements View
 
     /**
      * 设置Checkable
+     *
      * @param viewId
      * @param checked
      * @return
@@ -142,21 +151,21 @@ public  class RecyclerViewHolder extends RecyclerView.ViewHolder implements View
     }
 
     //点击事件
-    public RecyclerViewHolder setOnClickListener(int viewId,View.OnClickListener listener) {
+    public RecyclerViewHolder setOnClickListener(int viewId, View.OnClickListener listener) {
         View view = getView(viewId);
         view.setOnClickListener(listener);
         return this;
     }
 
     //触摸事件
-    public RecyclerViewHolder setOnTouchListener(int viewId,View.OnTouchListener listener) {
+    public RecyclerViewHolder setOnTouchListener(int viewId, View.OnTouchListener listener) {
         View view = getView(viewId);
         view.setOnTouchListener(listener);
         return this;
     }
 
     //长按事件
-    public RecyclerViewHolder setOnLongClickListener(int viewId,View.OnLongClickListener listener) {
+    public RecyclerViewHolder setOnLongClickListener(int viewId, View.OnLongClickListener listener) {
         View view = getView(viewId);
         view.setOnLongClickListener(listener);
         return this;

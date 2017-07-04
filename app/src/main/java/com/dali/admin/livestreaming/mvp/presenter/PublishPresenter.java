@@ -14,6 +14,7 @@ import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.dali.admin.livestreaming.activity.LivePublisherActivity;
 import com.dali.admin.livestreaming.logic.IUserInfoMgrListener;
 import com.dali.admin.livestreaming.logic.ImUserInfoMgr;
 import com.dali.admin.livestreaming.logic.LocationMgr;
@@ -151,8 +152,8 @@ public class PublishPresenter extends IPublishPresenter {
                 //录屏直播
                 mBaseView.showMsg("录屏直播");
             } else {
-                mBaseView.showMsg("摄像头直播");
-//                LivePublishActivity.invoke(mIPublishView.getActivity(),title,location,isRecord,bitrateType);
+//              mBaseView.showMsg("摄像头直播");
+                LivePublisherActivity.invoke(mIPublishView.getActivity(),title,location,isRecord,bitrateType);
             }
         }
     }

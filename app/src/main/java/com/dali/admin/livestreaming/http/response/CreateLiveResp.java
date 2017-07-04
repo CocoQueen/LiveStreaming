@@ -7,6 +7,7 @@ import com.dali.admin.livestreaming.http.IDontObfuscate;
  */
 public class CreateLiveResp  extends IDontObfuscate {
     private String pushUrl;
+    private String liveId;
 
     public String getPushUrl() {
         return pushUrl;
@@ -14,5 +15,13 @@ public class CreateLiveResp  extends IDontObfuscate {
 
     public void setPushUrl(String pushUrl) {
         this.pushUrl = pushUrl;
+    }
+
+    public String getLiveId() {
+        return liveId;
+    }
+
+    public void setLiveIdl(String liveId) {
+        this.liveId = liveId;
     }
 }

@@ -17,9 +17,7 @@
     <uses-feature android:name="android.hardware.camera.autofocus"/>
 
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-
     <uses-permission android:name="android.permission.WRITE_APN_SETTINGS"/>
-
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <!-- IMSDK 权限 -->
@@ -111,9 +109,12 @@
             android:name=".activity.PublishActivity"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.LivePublishActivity">
-        </activity>
         <activity android:name=".activity.LivePlayerActivity">
+        </activity>
+        <activity android:name=".activity.LivePublisherActivity"
+                  android:launchMode="singleTop"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustNothing">
         </activity>
     </application>
 

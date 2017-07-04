@@ -153,7 +153,8 @@ public class IMLogin {
     }
 
     public boolean checkCacheAndLogin(){
-        if (needLogin()){
+        boolean needLogin = needLogin();
+        if (needLogin){
             return false;
         }else {
             imLogin(getLastUserInfo().identifier,getUserSig(getLastUserInfo().identifier));

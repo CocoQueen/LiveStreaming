@@ -31,7 +31,7 @@ import java.util.ArrayList;
  * 获取数据：LiveListPresenter
  * Created by dali on 2017/4/10.
  */
-public class LiveListFragment extends BaseFragment implements ILiveListView, ProgressBarHelper.ProgressBarClickListener, RecyclerViewAdapter.OnItemClickListener {
+public class LiveListFragment extends BaseFragment implements ILiveListView, ProgressBarHelper.ProgressBarClickListener {
 
     private static final String TAG = LiveListFragment.class.getSimpleName();
     private RecyclerView mRecyclerView;
@@ -43,9 +43,6 @@ public class LiveListFragment extends BaseFragment implements ILiveListView, Pro
     private ProgressBarHelper mPbHelper;
 
     private LiveListPresenter mLiveListPresenter;
-
-    private int viewCount;
-    private int likeCount;
 
     public static LiveListFragment newInstance(Bundle bundle) {
         LiveListFragment fragment = new LiveListFragment();
@@ -79,9 +76,23 @@ public class LiveListFragment extends BaseFragment implements ILiveListView, Pro
             }
         });
         mPbHelper.setProgressBarClickListener(this);
-
-        mListAdapter.setOnItemClickListener(this);
-
+        mListAdapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                if (0 == mLastClickTime || System.currentTimeMillis() - mLastClickTime > 1000) {
+                    if (mListAdapter.getItemCount() > position) {
+                        LiveInfo info = mLiveListPresenter.getLiveListData().get(position);
+                        if (info == null) {
+                            Log.e(TAG, "live list item is null");
+                            return;
+                        }
+                        startLivePlayer(info.getPlayUrl());
+                        Log.e(TAG, "url:" + info.getPlayUrl());
+                    }
+                }
+                mLastClickTime = System.currentTimeMillis();
+            }
+        });
     }
 
     /**
@@ -191,20 +202,20 @@ public class LiveListFragment extends BaseFragment implements ILiveListView, Pro
     }
 
 
-    @Override
-    public void onItemClick(View view, int position) {
-        ToastUtils.showShort(mContext,"position:"+position);
-        if (0 == mLastClickTime || System.currentTimeMillis() - mLastClickTime > 1000) {
-            if (mListAdapter.getItemCount() > position) {
-                LiveInfo info = mLiveListPresenter.getLiveListData().get(position);
-                if (info == null) {
-                    Log.e(TAG, "live list item is null");
-                    return;
-                }
-                startLivePlayer(info.getPlayUrl());
-                Log.e(TAG, "url:" + info.getPlayUrl());
-            }
-        }
-        mLastClickTime = System.currentTimeMillis();
-    }
+//    @Override
+//    public void onItemClick(View view, int position) {
+//        System.out.println(position+"-------------position");
+//        if (0 == mLastClickTime || System.currentTimeMillis() - mLastClickTime > 1000) {
+//            if (mListAdapter.getItemCount() > position) {
+//                LiveInfo info = mLiveListPresenter.getLiveListData().get(position);
+//                if (info == null) {
+//                    Log.e(TAG, "live list item is null");
+//                    return;
+//                }
+//                startLivePlayer(info.getPlayUrl());
+//                Log.e(TAG, "url:" + info.getPlayUrl());
+//            }
+//        }
+//        mLastClickTime = System.currentTimeMillis();
+//    }
 }

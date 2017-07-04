@@ -233,6 +233,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     public void loginFailed(int status, String msg) {
         dismissLoading();
         showMsg("登录失败：" + msg);
+        finish();
     }
 
     @Override

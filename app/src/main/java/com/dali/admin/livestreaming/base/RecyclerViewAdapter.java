@@ -20,14 +20,20 @@ public abstract class RecyclerViewAdapter<T> extends RecyclerView.Adapter<Recycl
     protected Context mContext;//上下文
     private LayoutInflater mInflater;
 
-    private OnItemClickListener mOnItemClickListener = null;
+    private OnItemClickListener mOnItemClickListener;
 
     public interface OnItemClickListener {
         void onItemClick(View view, int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        mOnItemClickListener = onItemClickListener;
+        this.mOnItemClickListener = onItemClickListener;
+    }
+
+    @Override
+    public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = mInflater.inflate(mLayoutId, parent, false);
+        return new RecyclerViewHolder(itemView,this.mOnItemClickListener);
     }
 
     public RecyclerViewAdapter(Context context, int layoutId, List<T> datas) {
@@ -37,11 +43,6 @@ public abstract class RecyclerViewAdapter<T> extends RecyclerView.Adapter<Recycl
         this.mInflater = LayoutInflater.from(mContext);
     }
 
-    @Override
-    public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = mInflater.inflate(mLayoutId, parent, false);
-        return new RecyclerViewHolder(itemView);
-    }
 
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
