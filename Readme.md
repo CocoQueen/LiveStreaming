@@ -4,6 +4,9 @@
 
 项目的框架结构采用了比较流行MVP，把界面与直播相关业务逻辑进行了分离，同时部分功能进行了调试封装，也引用了比较流行的技术，如OkHttp网络请求、 glide图片加载、ORMLitee数据库、ButterKnife注释等
 
+[110本编程书籍](http://blog.csdn.net/wbst5/article/details/74503159)
+
+
 1、[高层封装之 Activity](http://www.cniao5.com/forum/thread/3652)
 
 2.1、[高层封装之 Fragment](http://www.cniao5.com/forum/thread/3657)
@@ -64,4 +67,4 @@
 
 20、[直播列表](http://www.cniao5.com/forum/thread/3755)
 
-[110本编程书籍](http://blog.csdn.net/wbst5/article/details/74503159)
+
