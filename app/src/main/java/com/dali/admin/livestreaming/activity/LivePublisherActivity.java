@@ -1,10 +1,12 @@
 package com.dali.admin.livestreaming.activity;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -24,27 +26,26 @@ import com.dali.admin.livestreaming.mvp.presenter.PusherPresenter;
 import com.dali.admin.livestreaming.mvp.view.Iview.IPusherView;
 import com.dali.admin.livestreaming.utils.AsimpleCache.ACache;
 import com.dali.admin.livestreaming.utils.Constants;
+import com.dali.admin.livestreaming.utils.HWSupportList;
 import com.tencent.TIMGroupManager;
 import com.tencent.TIMManager;
 import com.tencent.TIMValueCallBack;
 import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePushConfig;
-import com.tencent.rtmp.TXLivePusher;
-import com.tencent.rtmp.TXRtmpApi;
+import com.tencent.rtmp.audio.TXAudioPlayer;
 import com.tencent.rtmp.ui.TXCloudVideoView;
 
-public class LivePublisherActivity extends BaseActivity implements IPusherView {
+public class LivePublisherActivity extends BaseActivity implements IPusherView, View.OnClickListener {
 
     private static final String TAG = LivePublisherActivity.class.getSimpleName();
     private TXCloudVideoView mTXCloudVideoView;
     private TXLivePushConfig mTXPushConfig = new TXLivePushConfig();
-    private TXLivePusher mTXLivePusher;
+//    private TXLivePusher mTXLivePusher;
 
     private boolean mPasuing = false;
 
     private String mPushUrl;
     private String mLiveId;
-    private String mGroupId;
     private String mUserId;
     private String mTitle;
     private String mCoverPicUrl;
@@ -55,6 +56,10 @@ public class LivePublisherActivity extends BaseActivity implements IPusherView {
 
     private PusherPresenter mPusherPresenter;
     private String mRoomId;
+
+    private View btnSettingView;
+    private int[] mSettingLocation = new int[2];
+    private TXAudioPlayer mAudioPlayer;
 
     @Override
     protected void setBeforeLayout() {
@@ -80,11 +85,12 @@ public class LivePublisherActivity extends BaseActivity implements IPusherView {
         if (mTXCloudVideoView != null) {
             mTXCloudVideoView.disableLog(false);
         }
-
+        //创建群组
         createGroup();
     }
 
     private void createGroup() {
+        //检测登录状态，在登录的前提下创建群组，并回调登录监听，成功则将群组号传到推流中
         checkLoginState(new IMLogin.IMLoginListener() {
 
             @Override
@@ -100,6 +106,7 @@ public class LivePublisherActivity extends BaseActivity implements IPusherView {
                     public void onSuccess(String roomId) {
                         Log.e(TAG, "create av group succ,groupId: " + roomId);
                         mRoomId = roomId;
+                        //加入群组并进行推流
                         onJoinGroupResult(0, roomId);
                     }
                 });
@@ -112,10 +119,12 @@ public class LivePublisherActivity extends BaseActivity implements IPusherView {
         });
     }
 
+    //加入群组并进行推流
     private void onJoinGroupResult(int code, String msg) {
         if (0 == code) {
             mRoomId = msg;
-            mPusherPresenter.getPusherUrl(mUserId,mRoomId,mTitle,mCoverPicUrl,mLocation,mIsRecord);
+            //推流回调
+            mPusherPresenter.getPusherUrl(mUserId, mRoomId, mTitle, mCoverPicUrl, mNickName, mHeadPicUrl, mLocation, mIsRecord);
         } else if (Constants.NO_LOGIN_CACHE == code) {
             Log.e(TAG, "on join group failed " + msg);
         } else {
@@ -123,34 +132,21 @@ public class LivePublisherActivity extends BaseActivity implements IPusherView {
         }
     }
 
+    //检测登陆状态
     private void checkLoginState(IMLogin.IMLoginListener imLoginListener) {
         IMLogin imLogin = IMLogin.getInstace();
         if (TextUtils.isEmpty(TIMManager.getInstance().getLoginUser())) {
             imLogin.setIMLoginListener(imLoginListener);
-            if(imLogin.checkCacheAndLogin()) {
+            if (imLogin.checkCacheAndLogin()) {
                 imLoginListener.onSuccess();
-            }else {
-                imLoginListener.onFailure(1,"login error");
+            } else {
+                imLoginListener.onFailure(1, "login error");
             }
         } else {
             if (null != imLoginListener) {
                 imLoginListener.onSuccess();
             }
         }
-    }
-
-
-    private void stopPublish() {
-        if (mTXLivePusher != null) {
-            mTXLivePusher.stopCameraPreview(false);
-            mTXLivePusher.setPushListener(null);
-            mTXLivePusher.stopPusher();
-        }
-
-//        if (mAudioPlayer != null) {
-//            mAudioPlayer.stop();
-//            mAudioPlayer = null;
-//        }
     }
 
     public void getPushUrl(final String userId, final String groupId, final String title, final String coverPic, final String location) {
@@ -199,7 +195,6 @@ public class LivePublisherActivity extends BaseActivity implements IPusherView {
     //获取数据
     private void getDataFormIntent() {
         mUserId = getIntent().getStringExtra(Constants.USER_ID);
-        mPushUrl = getIntent().getStringExtra(Constants.PUBLISH_URL);
         mTitle = getIntent().getStringExtra(Constants.ROOM_TITLE);
         mCoverPicUrl = getIntent().getStringExtra(Constants.COVER_PIC);
         mHeadPicUrl = getIntent().getStringExtra(Constants.USER_HEADPIC);
@@ -214,6 +209,8 @@ public class LivePublisherActivity extends BaseActivity implements IPusherView {
         getDataFormIntent();
 
         mTXCloudVideoView = obtainView(R.id.video_view);
+        btnSettingView = obtainView(R.id.btn_setting);
+
         mTXCloudVideoView.setVisibility(View.VISIBLE);
         mPusherPresenter = new PusherPresenter(this);
 
@@ -228,21 +225,46 @@ public class LivePublisherActivity extends BaseActivity implements IPusherView {
 
 
     private void startPublish() {
-        if (mTXLivePusher == null) {
-            mTXLivePusher = new TXLivePusher(this);
-            mTXPushConfig.setAutoAdjustBitrate(false);
-            mTXPushConfig.setVideoResolution(TXLiveConstants.VIDEO_RESOLUTION_TYPE_540_960);
-            mTXPushConfig.setVideoBitrate(1000);
+//        if (mTXLivePusher == null) {
+//            mTXLivePusher = new TXLivePusher(this);
+//            mTXPushConfig.setAutoAdjustBitrate(false);
+//            mTXPushConfig.setVideoResolution(TXLiveConstants.VIDEO_RESOLUTION_TYPE_540_960);
+//            mTXPushConfig.setVideoBitrate(1000);
+//            mTXPushConfig.setHardwareAcceleration(true);
+//            //切后台推流图片
+//            BitmapFactory.Options options = new BitmapFactory.Options();
+//            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+//            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pause_publish, options);
+//            mTXPushConfig.setPauseImg(bitmap);
+//            mTXLivePusher.setConfig(mTXPushConfig);
+//        }
+//        mTXCloudVideoView.setVisibility(View.VISIBLE);
+//        mTXLivePusher.startCameraPreview(mTXCloudVideoView);
+//        mTXLivePusher.setPushListener(null);
+//        mTXLivePusher.startPusher(mPushUrl);
+
+        mTXPushConfig.setAutoAdjustBitrate(false);
+        mTXPushConfig.setVideoResolution(TXLiveConstants.VIDEO_RESOLUTION_TYPE_540_960);
+        mTXPushConfig.setVideoBitrate(1000);
+        mTXPushConfig.setVideoFPS(20);
+
+        //根据手机类型设置硬编码，判断是否支持手机硬编码
+        Log.e(TAG,"MANUFACTURER:"+Build.MANUFACTURER+" MODEL:"+Build.MODEL);
+        if (HWSupportList.isHWVideoEncodeSupport()){
             mTXPushConfig.setHardwareAcceleration(true);
-            //切后台推流图片
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pause_publish, options);
-            mTXPushConfig.setPauseImg(bitmap);
-            mTXLivePusher.setConfig(mTXPushConfig);
+            Log.e(TAG,"startPublish:手机设置硬编码成功！");
+        }else {
+            Log.e(TAG,"startPublish:手机不支持硬编码！");
         }
-        mTXLivePusher.startCameraPreview(mTXCloudVideoView);
-        mTXLivePusher.startPusher(mPushUrl);
+
+        //设置水印
+        mTXPushConfig.setWatermark(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher), 50, 50);
+        //切后台推流图片
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pause_publish, options);
+        mTXPushConfig.setPauseImg(bitmap);
+        mPusherPresenter.startPusher(mTXCloudVideoView, mTXPushConfig, mPushUrl);
     }
 
     @Override
@@ -274,11 +296,12 @@ public class LivePublisherActivity extends BaseActivity implements IPusherView {
         if (mPasuing) {
             mPasuing = false;
 
-            if (mTXLivePusher != null) {
-                mTXLivePusher.resumePusher();
-                mTXLivePusher.startCameraPreview(mTXCloudVideoView);
-                mTXLivePusher.resumeBGM();
-            }
+//            if (mTXLivePusher != null) {
+//                mTXLivePusher.resumePusher();
+//                mTXLivePusher.startCameraPreview(mTXCloudVideoView);
+//                mTXLivePusher.resumeBGM();
+//            }
+            mPusherPresenter.resumePusher();
         }
     }
 
@@ -286,10 +309,11 @@ public class LivePublisherActivity extends BaseActivity implements IPusherView {
     protected void onPause() {
         super.onPause();
         mTXCloudVideoView.onPause();
-        if (mTXLivePusher != null) {
-            mTXLivePusher.pauseBGM();
-        }
+//        if (mTXLivePusher != null) {
+//            mTXLivePusher.pauseBGM();
+//        }
 
+        mPusherPresenter.pausePusher();
     }
 
     @Override
@@ -297,18 +321,27 @@ public class LivePublisherActivity extends BaseActivity implements IPusherView {
         super.onStop();
 
         mPasuing = true;
-        if (mTXLivePusher != null) {
-            mTXLivePusher.stopCameraPreview(false);
-            mTXLivePusher.pausePusher();
-        }
+//        if (mTXLivePusher != null) {
+//            mTXLivePusher.stopCameraPreview(false);
+//            mTXLivePusher.pausePusher();
+//        }
+        mPusherPresenter.stopPusher();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mTXCloudVideoView.onDestroy();
-        stopPublish();
-        TXRtmpApi.setRtmpDataListener(null);
+        mPusherPresenter.stopPusher();
+//        TXRtmpApi.setRtmpDataListener(null);
+    }
+
+    private void stopPublish() {
+        mPusherPresenter.stopPusher();
+        if (mAudioPlayer != null) {
+            mAudioPlayer.stop();
+            mAudioPlayer = null;
+        }
     }
 
     @Override
@@ -322,12 +355,39 @@ public class LivePublisherActivity extends BaseActivity implements IPusherView {
 
         if (errorCode == 0) {
             //start push
-            System.out.println("onGetPushUrl：" + mUserId + mGroupId + mTitle + mCoverPicUrl + mNickName + mHeadPicUrl + mLocation);
             startPublish();
-
         } else {
+            Log.e(TAG, "push url is empty");
             //push url error
             finish();
+        }
+    }
+
+    @Override
+    public FragmentManager getFragmentMgr() {
+        return getFragmentManager();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            //直播退出
+            case R.id.btn_close:
+                stopPublish();
+                finish();
+                break;
+            //直播设置，跳出popwindow
+            case R.id.btn_setting:
+                mPusherPresenter.showSettingPopupWindow(btnSettingView, mSettingLocation);
+                break;
+        }
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (mSettingLocation[0] == 0 && mSettingLocation[1] == 0) {
+            btnSettingView.getLocationOnScreen(mSettingLocation);
         }
     }
 }

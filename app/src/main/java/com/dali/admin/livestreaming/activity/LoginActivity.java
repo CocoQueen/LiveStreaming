@@ -24,6 +24,9 @@ import java.lang.ref.WeakReference;
 
 import static com.dali.admin.livestreaming.R.id.til_login;
 
+/**
+ * 登陆
+ */
 public class LoginActivity extends BaseActivity implements View.OnClickListener, ILoginView {
 
     //共用控件

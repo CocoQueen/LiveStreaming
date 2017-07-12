@@ -10,11 +10,13 @@ import java.lang.reflect.Type;
  */
 public class LiveLikeRequest extends IRequest {
 
-    public LiveLikeRequest(int requestId, String userId, String liveId) {
+    public LiveLikeRequest(int requestId, String userId, String liveId, String hostId, String groupId) {
         mRequestId = requestId;
-        mParams.put("action","liveLike");
-        mParams.put("userId",userId);
-        mParams.put("liveId",liveId);
+        mParams.put("action", "liveLike");
+        mParams.put("userId", userId);
+        mParams.put("liveId", liveId);
+        mParams.put("hostId", hostId);
+        mParams.put("groupId", groupId);
     }
 
     @Override

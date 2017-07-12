@@ -3,6 +3,7 @@ package com.dali.admin.livestreaming.mvp.view.Iview;
 import android.app.Activity;
 
 /**
+ * 发起直播View接口
  * Created by dali on 2017/4/27.
  */
 

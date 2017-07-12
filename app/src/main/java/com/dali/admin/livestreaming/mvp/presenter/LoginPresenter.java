@@ -20,6 +20,7 @@ import com.dali.admin.livestreaming.utils.AsimpleCache.CacheConstants;
 import com.dali.admin.livestreaming.utils.OtherUtils;
 
 /**
+ * 登陆Presenter实现
  * Created by dali on 2017/4/7.
  */
 

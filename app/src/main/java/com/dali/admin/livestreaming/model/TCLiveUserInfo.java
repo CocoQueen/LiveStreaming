@@ -3,6 +3,7 @@ package com.dali.admin.livestreaming.model;
 import java.io.Serializable;
 
 /**
+ * 直播用户信息
  * Created by dali on 2017/5/7.
  */
 

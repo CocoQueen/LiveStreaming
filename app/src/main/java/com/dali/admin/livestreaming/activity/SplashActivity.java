@@ -10,6 +10,9 @@ import com.dali.admin.livestreaming.R;
 import com.dali.admin.livestreaming.base.BaseActivity;
 import com.tencent.TIMManager;
 
+/**
+ * 闪屏页
+ */
 public class SplashActivity extends BaseActivity {
 
     private RelativeLayout mRlSplash;

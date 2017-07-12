@@ -3,6 +3,7 @@ package com.dali.admin.livestreaming.mvp.model;
 import com.dali.admin.livestreaming.http.IDontObfuscate;
 
 /**
+ * 用户，用于登陆存储用户信息
  * Created by dali on 2017/4/9.
  */
 

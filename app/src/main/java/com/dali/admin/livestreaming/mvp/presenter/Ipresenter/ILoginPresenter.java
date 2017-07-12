@@ -3,6 +3,7 @@ package com.dali.admin.livestreaming.mvp.presenter.Ipresenter;
 import com.dali.admin.livestreaming.mvp.view.Iview.BaseView;
 
 /**
+ * 登陆Presenter接口
  * Created by dali on 2017/4/7.
  */
 

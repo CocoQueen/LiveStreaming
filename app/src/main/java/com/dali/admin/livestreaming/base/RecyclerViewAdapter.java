@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * RecyclerView Adapter封装类
  * Created by dali on 2017/5/16.
  */
 
@@ -20,20 +21,11 @@ public abstract class RecyclerViewAdapter<T> extends RecyclerView.Adapter<Recycl
     protected Context mContext;//上下文
     private LayoutInflater mInflater;
 
-    private OnItemClickListener mOnItemClickListener;
-
-    public interface OnItemClickListener {
-        void onItemClick(View view, int position);
-    }
-
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        this.mOnItemClickListener = onItemClickListener;
-    }
-
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = mInflater.inflate(mLayoutId, parent, false);
-        return new RecyclerViewHolder(itemView,this.mOnItemClickListener);
+        //将监听传到RecyclerViewHolder中
+        return new RecyclerViewHolder(itemView);
     }
 
     public RecyclerViewAdapter(Context context, int layoutId, List<T> datas) {
@@ -49,9 +41,10 @@ public abstract class RecyclerViewAdapter<T> extends RecyclerView.Adapter<Recycl
         bindData(holder, mDatas.get(position), position);
     }
 
+
+
     /**
      * 把必要参数传进去，让每个 Adapter 去设置具体值
-     *
      * @param holder   RecyclerViewHolder
      * @param t        数据
      * @param position 当前位置
@@ -61,6 +54,13 @@ public abstract class RecyclerViewAdapter<T> extends RecyclerView.Adapter<Recycl
     @Override
     public int getItemCount() {
         return mDatas.size();
+    }
+
+    //获取单条数据
+    public T getItem(int position) {
+        if (position >= mDatas.size())
+            return null;
+        return mDatas.get(position);
     }
 
     public void clearData() {

@@ -20,6 +20,7 @@ import tencent.tls.platform.TLSSmsLoginListener;
 import tencent.tls.platform.TLSUserInfo;
 
 /**
+ * IM登陆
  * Created by dali on 2017/4/22.
  */
 

@@ -61,11 +61,12 @@ public class LiveListPresenter extends ILiveListPresenter {
             @Override
             public void onSuccess(int requestId, Response response) {
                 if (response.getStatus() == RequestComm.SUCCESS) {
-                    ResList resList =  (ResList) response.getData();
+                    ResList<LiveInfo> resList =  (ResList<LiveInfo>) response.getData();
                     if (resList != null) {
                         ArrayList<LiveInfo> result = (ArrayList<LiveInfo>) resList.getItems();
                         if (result != null) {
-                            mLiveInfos = (ArrayList<LiveInfo>) resList.getItems();
+                            mLiveInfos = result;
+                            Log.e(TAG,"LiveInfo:"+mLiveInfos.get(0).toString());
                             if (mLiveListView != null) {
                                 mLiveListView.onLiveList(0, mLiveInfos, state);
                             }

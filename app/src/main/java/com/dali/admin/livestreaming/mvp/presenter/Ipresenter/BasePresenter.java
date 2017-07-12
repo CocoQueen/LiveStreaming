@@ -1,6 +1,7 @@
 package com.dali.admin.livestreaming.mvp.presenter.Ipresenter;
 
 /**
+ * BasePresenter
  * Created by admin on 2017/4/7.
  */
 

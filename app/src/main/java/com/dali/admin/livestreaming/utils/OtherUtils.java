@@ -43,6 +43,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.dali.admin.livestreaming.R;
 
 import java.io.File;
@@ -470,7 +471,7 @@ public class OtherUtils {
 			if (TextUtils.isEmpty(url)) {
 				view.setImageResource(defResId);
 			} else {
-//				Glide.with(context).load(url).placeholder(defResId).transform(new GlideCircleTransform(context)).into(view);
+				Glide.with(context).load(url).placeholder(defResId).transform(new GlideCircleTransform(context)).into(view);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

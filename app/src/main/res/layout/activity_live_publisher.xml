@@ -9,39 +9,42 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 
-    <!--<RelativeLayout-->
-    <!--android:id="@+id/rl_controllLayer"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent">-->
+    <LinearLayout
+        android:id="@+id/rl_controllLayer"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <!--<RelativeLayout-->
-    <!--android:id="@+id/tool_bar"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignParentBottom="true"-->
-    <!--android:layout_margin="15dp">-->
+        <LinearLayout
+            android:id="@+id/tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="15dp"
+            android:gravity="right"
+            android:orientation="horizontal">
+            <!--弹出 PopupWindow-->
+            <Button
+                android:id="@+id/btn_setting"
+                android:layout_width="@dimen/live_btn_size"
+                android:layout_height="@dimen/live_btn_size"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/icon_setting_up"
+                android:onClick="onClick"/>
+            <!--退出直播-->
+            <Button
+                android:id="@+id/btn_close"
+                android:layout_width="@dimen/live_btn_size"
+                android:layout_height="@dimen/live_btn_size"
+                android:background="@drawable/btn_close"
+                android:onClick="onClick"/>
 
-    <!--<Button-->
-    <!--android:id="@+id/btn_close"-->
-    <!--android:layout_width="@dimen/live_btn_size"-->
-    <!--android:layout_height="@dimen/live_btn_size"-->
-    <!--android:layout_alignParentRight="true"-->
-    <!--android:background="@drawable/btn_close"-->
-    <!--android:onClick="onClick" />-->
 
-    <!--<Button-->
-    <!--android:id="@+id/btn_setting"-->
-    <!--android:layout_width="@dimen/live_btn_size"-->
-    <!--android:layout_height="@dimen/live_btn_size"-->
-    <!--android:layout_marginRight="20dp"-->
-    <!--android:layout_toLeftOf="@id/btn_close"-->
-    <!--android:background="@drawable/icon_setting_up"-->
-    <!--android:onClick="onClick" />-->
-    <!--</RelativeLayout>-->
+        </LinearLayout>
 
-    <!--</RelativeLayout>-->
+    </LinearLayout>
 
 
 </RelativeLayout>

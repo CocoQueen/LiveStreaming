@@ -2,11 +2,13 @@ package com.dali.admin.livestreaming.http.request;
 
 import com.dali.admin.livestreaming.http.response.ResList;
 import com.dali.admin.livestreaming.http.response.Response;
+import com.dali.admin.livestreaming.model.LiveInfo;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 
 /**
+ * 直播播放列表请求
  * Created by dali on 2017/5/8.
  */
 
@@ -14,7 +16,7 @@ public class LiveListRequest extends IRequest {
 
     public LiveListRequest(int requestId, String userId, int pageIndex, int pageSize) {
         mRequestId = requestId;
-        mParams.put("action", "liveListTest");
+        mParams.put("action", "liveList");
         mParams.put("userId", userId);
         mParams.put("pageIndex", pageIndex);
         mParams.put("pageSize", pageSize);
@@ -27,6 +29,6 @@ public class LiveListRequest extends IRequest {
 
     @Override
     public Type getParserType() {
-        return new TypeToken<Response<ResList>>(){}.getType();
+        return new TypeToken<Response<ResList<LiveInfo>>>(){}.getType();
     }
 }

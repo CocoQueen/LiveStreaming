@@ -34,6 +34,9 @@ import com.dali.admin.livestreaming.utils.ToastUtils;
 
 import java.io.File;
 
+/**
+ * 直播发起
+ */
 public class PublishActivity extends BaseActivity implements View.OnClickListener, IPublishView, RadioGroup.OnCheckedChangeListener {
 
     //               返回       发起直播      图片封面文字  是否录制文本 直播标题    位置信息显示

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * ViewPager Adapter
  * Created by dali on 2017/4/9.
  */
 

@@ -38,5 +38,10 @@
     <string name="networkerror_retry">网络异常，上拉重新加载</string>
     <string name="no_more_data_and_click">已加载全部内容 点击刷新</string>
     <string name="recycler_item">1</string>
+    <string name="live_setting_flash_open">开闪光</string>
+    <string name="live_setting_camera">翻转</string>
+    <string name="live_setting_beauty_open">开美颜</string>
+    <string name="live_setting_filter">滤镜</string>
+    <string name="beauty_disenable">手机不支持美颜功能</string>
     <!--registerActivity -->
 </resources>

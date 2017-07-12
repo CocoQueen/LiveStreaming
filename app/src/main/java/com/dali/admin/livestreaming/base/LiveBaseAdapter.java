@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import java.util.List;
 
 /**
+ * Adapter封装
  * Created by dali on 2017/3/10. 21:59
  */
 public abstract class LiveBaseAdapter<T> extends BaseAdapter {

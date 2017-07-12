@@ -6,6 +6,7 @@ import com.dali.admin.livestreaming.base.BaseActivity;
 import com.dali.admin.livestreaming.mvp.view.Iview.BaseView;
 
 /**
+ * 主页Presenter接口
  * Created by dali on 2017/4/9.
  */
 

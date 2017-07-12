@@ -1,7 +1,6 @@
 package com.dali.admin.livestreaming.fragment;
 
 
-import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.dali.admin.livestreaming.R;
@@ -9,7 +8,8 @@ import com.dali.admin.livestreaming.base.BaseFragment;
 import com.dali.admin.livestreaming.mvp.presenter.LiveMainPresenter;
 
 /**
- * A simple {@link Fragment} subclass.
+ * 直播首页
+ * Created by dali on 2017/4/10.
  */
 public class LiveMainFragment extends BaseFragment implements View.OnClickListener {
 

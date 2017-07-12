@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
+ * BaseViewHolder
  * Created by dali on 2017/5/7.
  */
 

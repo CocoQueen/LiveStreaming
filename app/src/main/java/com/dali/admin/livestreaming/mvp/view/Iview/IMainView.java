@@ -1,6 +1,7 @@
 package com.dali.admin.livestreaming.mvp.view.Iview;
 
 /**
+ * 主页接口
  * Created by dali on 2017/4/9.
  */
 

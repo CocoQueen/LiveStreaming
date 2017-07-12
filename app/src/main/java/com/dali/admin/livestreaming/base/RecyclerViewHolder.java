@@ -8,29 +8,29 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * ViewHolder封装类
+ * RecyclerView ViewHolder封装类
  * Created by dali on 2017/5/16.
  */
 
-public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class RecyclerViewHolder extends RecyclerView.ViewHolder{
 
     private SparseArray<View> mViews;
 
-    private RecyclerViewAdapter.OnItemClickListener mOnItemClickListener;
+//    private RecyclerViewAdapter.OnItemClickListener mOnItemClickListener;
 
-    public RecyclerViewHolder(View itemView, RecyclerViewAdapter.OnItemClickListener listener) {
+    public RecyclerViewHolder(View itemView) {
         super(itemView);
         this.mViews = new SparseArray<>();
-        this.mOnItemClickListener = listener;
-        itemView.setOnClickListener(this);
+//        this.mOnItemClickListener = listener;
+//        itemView.setOnClickListener(this);
     }
 
-    @Override
-    public void onClick(View v) {
-        if (mOnItemClickListener != null) {
-            mOnItemClickListener.onItemClick(v, getLayoutPosition());
-        }
-    }
+//    @Override
+//    public void onClick(View v) {
+//        if (mOnItemClickListener != null) {
+//            mOnItemClickListener.onItemClick(v, getLayoutPosition());
+//        }
+//    }
 
     /**
      * 从ItemView获取View

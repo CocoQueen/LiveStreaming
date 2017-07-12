@@ -1,18 +1,17 @@
 package com.dali.admin.livestreaming.http.response;
 
 
-import com.dali.admin.livestreaming.model.LiveInfo;
-
 import java.io.Serializable;
 import java.util.List;
 
 
-public class ResList  implements Serializable {
+public class ResList<T>  implements Serializable {
 
 	private int pageIndex;
 	private int pageSize;
+	public int totalCount;
 
-	private List<LiveInfo> items;
+	private List<T> items;
 
 	public int getPageIndex() {
 		return pageIndex;
@@ -30,12 +29,20 @@ public class ResList  implements Serializable {
 		this.pageSize = pageSize;
 	}
 
-	public List<LiveInfo> getItems() {
+	public List<T> getItems() {
 		return items;
 	}
 
-	public void setItems(List<LiveInfo> items) {
+	public void setItems(List<T> items) {
 		this.items = items;
+	}
+
+	public int getTotalCount() {
+		return totalCount;
+	}
+
+	public void setTotalCount(int totalCount) {
+		this.totalCount = totalCount;
 	}
 
 	@Override

@@ -2,6 +2,8 @@ package com.dali.admin.livestreaming.adapter;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -20,14 +22,15 @@ import java.util.List;
 
 public class NewLiveListAdapter extends RecyclerViewAdapter<LiveInfo>{
 
+    private OnItemClickListener mOnItemClickListener = null;
 
-    public NewLiveListAdapter(Context context, List<LiveInfo> datas) {
+    public NewLiveListAdapter(Context context, List<LiveInfo> datas, OnItemClickListener listener) {
         super(context, R.layout.list_live_item, datas);
+        this.mOnItemClickListener = listener;
     }
 
     @Override
     protected void bindData(RecyclerViewHolder holder, final LiveInfo liveInfo, final int position) {
-
         //直播标题
         holder.setText(R.id.live_title, liveInfo.getTitle())
                 //主播昵称
@@ -50,5 +53,19 @@ public class NewLiveListAdapter extends RecyclerViewAdapter<LiveInfo>{
         //主播头像（圆角显示图片）
         OtherUtils.showPicWithUrl(mContext, (ImageView) holder.getView(R.id.avatar), liveInfo.getUserInfo().getHeadPic(), R.drawable.default_head);
 
+
+        holder.getView(R.id.rv_id).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOnItemClickListener.onItemClick(v,position);
+                Log.e("NewLiveListAdapter","position:"+position+"");
+            }
+        });
     }
+
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
 }

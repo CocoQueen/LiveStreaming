@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Toast;
 
 /**
+ * BaseActivity封装
  * Created by dali on 2017/3/10. 20:27
  */
 public abstract class BaseActivity extends FragmentActivity {

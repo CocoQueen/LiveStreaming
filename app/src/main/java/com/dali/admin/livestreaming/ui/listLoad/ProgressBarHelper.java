@@ -15,7 +15,7 @@ import com.dali.admin.livestreaming.R;
  */
 
 public class ProgressBarHelper {
-    private ImageView mImageView;
+    private ImageView mAnimImg;
     //网络错误
     private int mNetErrorTipImageResId = R.drawable.net_error_tip;
     //没有数据
@@ -29,7 +29,7 @@ public class ProgressBarHelper {
     //加载完成
     public static final int STATE_FINISH = 3;
 
-    private int state = STATE_FINISH;
+    public static int state = STATE_FINISH;
 
     public View loading;
     private TextView mTvTipText;
@@ -37,6 +37,7 @@ public class ProgressBarHelper {
     private ProgressBarClickListener mProgressBarClickListener;
     private boolean isLoading = false;
     private Activity mContext;
+
 
     public interface ProgressBarClickListener {
         void clickRefresh();
@@ -60,9 +61,9 @@ public class ProgressBarHelper {
 
         mTvTipText = (TextView) loading.findViewById(R.id.loading_tip_txt);
         mProgressBar = (ProgressBar) loading.findViewById(R.id.loading_progress_bar);
-        mImageView = (ImageView) loading.findViewById(R.id.loading_image);
+        mAnimImg = (ImageView) loading.findViewById(R.id.loading_image);
         //设置加载进度
-        setLoading();
+        showLoading();
     }
 
     private long getTotalDuration(AnimationDrawable animationDrawable) {
@@ -73,6 +74,7 @@ public class ProgressBarHelper {
         return duration;
     }
 
+    //显示网络错误状态
     public void showNetError() {
         mContext.runOnUiThread(new Runnable() {
             @Override
@@ -92,7 +94,7 @@ public class ProgressBarHelper {
                                 if (mProgressBarClickListener != null) {
                                     if (mProgressBarClickListener != null && !mProgressBar.isShown() && mProgressBar.getVisibility() == View.GONE) {
                                         mProgressBarClickListener.clickRefresh();
-                                        setLoading();
+                                        showLoading();
                                     }
                                 }
                             }
@@ -103,50 +105,7 @@ public class ProgressBarHelper {
         });
     }
 
-    public void setLoading() {
-        isLoading = true;
-        if (mTvTipText != null)
-            mTvTipText.setText("");
-
-        if (mImageView != null) {
-            mImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.common_loading_anim));
-        }
-        if (mImageView != null && mImageView.getDrawable() instanceof AnimationDrawable) {
-            ((AnimationDrawable) mImageView.getDrawable()).start();
-        }
-
-        if (loading != null) {
-            loading.setEnabled(false);
-            loading.setVisibility(View.VISIBLE);
-        }
-
-        state = STATE_LOADING;
-
-    }
-
-    //加载失败
-    private void setFailue() {
-        isLoading = false;
-        mImageView.setVisibility(View.VISIBLE);
-        mImageView.setImageDrawable(mContext.getResources().getDrawable(mNetErrorTipImageResId));
-        loading.setEnabled(true);
-        loading.setVisibility(View.VISIBLE);
-
-        state = STATE_ERROR;
-    }
-
-    //无数据加载
-    private void setNoData() {
-        isLoading = false;
-        mImageView.setVisibility(View.VISIBLE);
-        mImageView.setImageDrawable(mContext.getResources().getDrawable(mNoDataTipImageResId));
-        loading.setEnabled(true);
-        loading.setVisibility(View.VISIBLE);
-
-        state = STATE_EMPTY;
-    }
-
-    //无数据
+    //显示无数据状态
     public void showNoData() {
         mContext.runOnUiThread(new Runnable() {
             @Override
@@ -167,7 +126,7 @@ public class ProgressBarHelper {
                         public void onClick(View v) {
                             if (mProgressBarClickListener != null && !mProgressBar.isShown() && mProgressBar.getVisibility() == View.GONE) {
                                 mProgressBarClickListener.clickRefresh();
-                                setLoading();
+                                showLoading();
                             }
                         }
                     });
@@ -176,7 +135,7 @@ public class ProgressBarHelper {
         });
     }
 
-    //加载完成
+    //显示加载完成状态
     public void goneLoading() {
         if (loading != null) {
             mContext.runOnUiThread(new Runnable() {
@@ -185,23 +144,64 @@ public class ProgressBarHelper {
                     isLoading = false;
                     if (loading != null)
                         loading.setVisibility(View.GONE);
-
                     state = STATE_FINISH;
                 }
             });
         }
     }
 
+    //设置加载动画
     public void showLoading() {
-        if (isLoading)
-            return;
+        isLoading = true;
+        if (mTvTipText != null)
+            mTvTipText.setText("");
 
-        mContext.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                setLoading();
-            }
-        });
+        if (mAnimImg != null) {
+            mAnimImg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.common_loading_anim));
+        }
+        if (mAnimImg != null && mAnimImg.getDrawable() instanceof AnimationDrawable) {
+            ((AnimationDrawable) mAnimImg.getDrawable()).start();
+        }
+
+        if (loading != null) {
+            loading.setEnabled(false);
+            loading.setVisibility(View.VISIBLE);
+        }
+
+        state = STATE_LOADING;
     }
+
+    //设置加载失败
+    private void setFailue() {
+        isLoading = false;
+        mAnimImg.setVisibility(View.VISIBLE);
+        mAnimImg.setImageDrawable(mContext.getResources().getDrawable(mNetErrorTipImageResId));
+        loading.setEnabled(true);
+        loading.setVisibility(View.VISIBLE);
+        state = STATE_ERROR;
+    }
+
+    //设置无数据加载
+    private void setNoData() {
+        isLoading = false;
+        mAnimImg.setVisibility(View.VISIBLE);
+        mAnimImg.setImageDrawable(mContext.getResources().getDrawable(mNoDataTipImageResId));
+        loading.setEnabled(true);
+        loading.setVisibility(View.VISIBLE);
+
+        state = STATE_EMPTY;
+    }
+
+//    public void showLoading() {
+//        if (isLoading)
+//            return;
+//
+//        mContext.runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                showLoading();
+//            }
+//        });
+//    }
 
 }

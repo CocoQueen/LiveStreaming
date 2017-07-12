@@ -14,7 +14,6 @@ import com.dali.admin.livestreaming.R;
 import com.dali.admin.livestreaming.activity.LivePlayerActivity;
 import com.dali.admin.livestreaming.adapter.NewLiveListAdapter;
 import com.dali.admin.livestreaming.base.BaseFragment;
-import com.dali.admin.livestreaming.base.RecyclerViewAdapter;
 import com.dali.admin.livestreaming.model.LiveInfo;
 import com.dali.admin.livestreaming.mvp.presenter.LiveListPresenter;
 import com.dali.admin.livestreaming.mvp.view.Iview.ILiveListView;
@@ -36,6 +35,8 @@ public class LiveListFragment extends BaseFragment implements ILiveListView, Pro
     private static final String TAG = LiveListFragment.class.getSimpleName();
     private RecyclerView mRecyclerView;
     private MaterialRefreshLayout mMaterialRefreshLayout;
+
+    private NewLiveListAdapter.OnItemClickListener mOnItemClickListener;
     //避免连击
     private long mLastClickTime = 0;
 
@@ -66,7 +67,7 @@ public class LiveListFragment extends BaseFragment implements ILiveListView, Pro
 
             @Override
             public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
-                if (mLiveListPresenter.getPageIndex() <= 6) {
+                if (mLiveListPresenter.getPageIndex() < mLiveListPresenter.getLiveListData().size()) {
                     mLiveListPresenter.loadDataMore();
                 } else {
                     ToastUtils.showShort(mContext, "没有数据啦...");
@@ -76,23 +77,7 @@ public class LiveListFragment extends BaseFragment implements ILiveListView, Pro
             }
         });
         mPbHelper.setProgressBarClickListener(this);
-        mListAdapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                if (0 == mLastClickTime || System.currentTimeMillis() - mLastClickTime > 1000) {
-                    if (mListAdapter.getItemCount() > position) {
-                        LiveInfo info = mLiveListPresenter.getLiveListData().get(position);
-                        if (info == null) {
-                            Log.e(TAG, "live list item is null");
-                            return;
-                        }
-                        startLivePlayer(info.getPlayUrl());
-                        Log.e(TAG, "url:" + info.getPlayUrl());
-                    }
-                }
-                mLastClickTime = System.currentTimeMillis();
-            }
-        });
+
     }
 
     /**
@@ -111,8 +96,28 @@ public class LiveListFragment extends BaseFragment implements ILiveListView, Pro
         mRecyclerView = obtainView(R.id.live_list);
         mPbHelper = new ProgressBarHelper(obtainView(R.id.ll_data_loading), mContext);
         mLiveListPresenter = new LiveListPresenter(this);
-        mListAdapter = new NewLiveListAdapter(mContext,mLiveListPresenter.getLiveListData());
+        mOnItemClickListener = new NewLiveListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                getPushUrl(position);
+            }
+        };
+        mListAdapter = new NewLiveListAdapter(mContext, mLiveListPresenter.getLiveListData(), mOnItemClickListener);
         mMaterialRefreshLayout.setLoadMore(true);
+    }
+
+    //获取推流地址并播放直播
+    private void getPushUrl(int position) {
+        if (0 == mLastClickTime || System.currentTimeMillis() - mLastClickTime > 1000) {
+            LiveInfo info = mListAdapter.getItem(position);
+            if (info == null) {
+                Log.e(TAG, "live list item is null");
+                return;
+            }
+            startLivePlayer(info.getPlayUrl());
+            Log.e(TAG, "url:" + info.getPlayUrl() + " position:" + position);
+        }
+        mLastClickTime = System.currentTimeMillis();
     }
 
     @Override
@@ -126,6 +131,7 @@ public class LiveListFragment extends BaseFragment implements ILiveListView, Pro
         if (mLiveListPresenter.getLiveListData() != null && mLiveListPresenter.getLiveListData().size() > 0) {
             showData(mLiveListPresenter.getLiveListData(), Constants.STATE_REFRESH);
         } else {
+            ToastUtils.showShort(mContext, "刷新列表失败");
             onLoading(ProgressBarHelper.STATE_ERROR);
         }
     }
@@ -153,7 +159,7 @@ public class LiveListFragment extends BaseFragment implements ILiveListView, Pro
     public void showData(ArrayList<LiveInfo> datas, int state) {
         switch (state) {
             case Constants.STATE_NORMAL:
-                mListAdapter = new NewLiveListAdapter(mContext, datas);
+                mListAdapter = new NewLiveListAdapter(mContext, datas, mOnItemClickListener);
                 mRecyclerView.setAdapter(mListAdapter);
                 mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
                 mRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -177,15 +183,17 @@ public class LiveListFragment extends BaseFragment implements ILiveListView, Pro
     public void onLiveList(int retCode, ArrayList<LiveInfo> datas, int state) {
         if (retCode == 0) {
             if (datas != null && datas.size() > 0) {
-                onLoading(ProgressBarHelper.STATE_FINISH);
                 showData(datas, state);
+                onLoading(ProgressBarHelper.STATE_FINISH);
             } else {
                 onLoading(ProgressBarHelper.STATE_EMPTY);
             }
         } else {
+            ToastUtils.showShort(mContext, "刷新列表失败");
             onLoading(ProgressBarHelper.STATE_ERROR);
         }
     }
+
 
     public void onLoading(int state) {
         switch (state) {
@@ -201,21 +209,4 @@ public class LiveListFragment extends BaseFragment implements ILiveListView, Pro
         }
     }
 
-
-//    @Override
-//    public void onItemClick(View view, int position) {
-//        System.out.println(position+"-------------position");
-//        if (0 == mLastClickTime || System.currentTimeMillis() - mLastClickTime > 1000) {
-//            if (mListAdapter.getItemCount() > position) {
-//                LiveInfo info = mLiveListPresenter.getLiveListData().get(position);
-//                if (info == null) {
-//                    Log.e(TAG, "live list item is null");
-//                    return;
-//                }
-//                startLivePlayer(info.getPlayUrl());
-//                Log.e(TAG, "url:" + info.getPlayUrl());
-//            }
-//        }
-//        mLastClickTime = System.currentTimeMillis();
-//    }
 }

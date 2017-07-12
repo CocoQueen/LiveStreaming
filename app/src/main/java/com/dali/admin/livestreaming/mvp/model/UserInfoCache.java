@@ -8,6 +8,7 @@ import com.dali.admin.livestreaming.utils.AsimpleCache.ACache;
 import com.dali.admin.livestreaming.utils.Constants;
 
 /**
+ * 用户信息缓存类
  * Created by dali on 2017/4/9.
  */
 
