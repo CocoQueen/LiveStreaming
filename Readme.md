@@ -76,3 +76,11 @@
 21.1、[推流 MVP 封装 -- 推流基本功能](http://www.cniao5.com/forum/thread/3804)
 
 21.2、[PopupWindow 弹出、打开闪光灯以及翻转摄像头](http://www.cniao5.com/forum/thread/3805)
+
+21.3、[自定义 DialogFragment 实现美颜美白、水印、硬件编码](http://www.cniao5.com/forum/thread/3806)
+
+21.4、[自定义 DialogFragment 实现滤镜效果](http://www.cniao5.com/forum/thread/3807)
+
+21.5、[PopupWindow 详解](http://www.cniao5.com/forum/thread/3808)
+
+21.6、[PopupWindow 封装](http://www.cniao5.com/forum/thread/3811)
