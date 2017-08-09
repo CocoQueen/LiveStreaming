@@ -22,7 +22,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.dali.admin.livestreaming.R;
-import com.dali.admin.livestreaming.base.BaseActivity;
 import com.dali.admin.livestreaming.logic.LocationMgr;
 import com.dali.admin.livestreaming.mvp.presenter.PublishPresenter;
 import com.dali.admin.livestreaming.mvp.view.Iview.IPublishView;
@@ -37,7 +36,7 @@ import java.io.File;
 /**
  * 直播发起
  */
-public class PublishActivity extends BaseActivity implements View.OnClickListener, IPublishView, RadioGroup.OnCheckedChangeListener {
+public class PublishActivity extends IMBaseActivity implements View.OnClickListener, IPublishView, RadioGroup.OnCheckedChangeListener {
 
     //               返回       发起直播      图片封面文字  是否录制文本 直播标题    位置信息显示
     private TextView mBtnBack, mBtnPublish, mTvPicTip, mTvRecord, mTvTitle, mTvLBS;

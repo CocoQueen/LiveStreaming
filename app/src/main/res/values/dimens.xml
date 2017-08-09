@@ -28,4 +28,6 @@
     <dimen name="h12">20sp</dimen>
     <dimen name="live_btn_size">35dp</dimen>
     <dimen name="text_size_20">20sp</dimen>
+    <dimen name="sub_content">14sp</dimen>
+    <dimen name="title">18sp</dimen>
 </resources>

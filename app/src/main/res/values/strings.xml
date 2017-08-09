@@ -43,5 +43,19 @@
     <string name="live_setting_beauty_open">开美颜</string>
     <string name="live_setting_filter">滤镜</string>
     <string name="beauty_disenable">手机不支持美颜功能</string>
+    <string name="tip_force_offline">您的帐号已在其它地方登陆</string>
+    <string name="group_not_exit_error">直播已结束，加入失败</string>
+    <string name="join_group_error"/>
+    <string name="live_stop_error"/>
+    <string name="not_qcloud_link">非腾讯云链接，若要放开限制请联系腾讯云商务团队</string>
+    <string name="rtmp_play_error">视频流播放失败，Error:</string>
+    <string name="msg_stop_push_error">当前正在直播，是否退出直播？</string>
+    <string name="msg_stop_watch">正在观看直播，是否退出观看？</string>
+    <string name="live_end_tips">直播结束啦！</string>
+    <string name="live_time_tips">直播时长</string>
+    <string name="live_members_tips">观看人数</string>
+    <string name="live_admires_tips">获赞数量</string>
+    <string name="btn_return_home">返回首页</string>
+    <string name="send">发送</string>
     <!--registerActivity -->
 </resources>

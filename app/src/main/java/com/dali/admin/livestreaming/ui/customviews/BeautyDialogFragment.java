@@ -37,7 +37,13 @@ public class BeautyDialogFragment extends DialogFragment{
         //外部点击取消
         dialog.setCanceledOnTouchOutside(true);
 
+        mTvBeauty = (TextView) dialog.findViewById(R.id.tv_face_beauty);
+        mTvWhitening = (TextView) dialog.findViewById(R.id.tv_face_whitening);
+        mTvBeauty.setSelected(true);
+        mTvWhitening.setSelected(false);
+
         mBeautySeekbar = (SeekBar) dialog.findViewById(R.id.beauty_seekbar);
+
         mBeautySeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -65,11 +71,6 @@ public class BeautyDialogFragment extends DialogFragment{
 
         mBeautySeekbar.setProgress(mBeautyProgress);
 
-        mTvBeauty = (TextView) dialog.findViewById(R.id.tv_face_beauty);
-        mTvWhitening = (TextView) dialog.findViewById(R.id.tv_face_whitening);
-        mTvBeauty.setSelected(true);
-        mTvWhitening.setSelected(false);
-
         state = STATE_BEAUTY;
 
         mTvBeauty.setOnClickListener(new View.OnClickListener() {
@@ -78,7 +79,7 @@ public class BeautyDialogFragment extends DialogFragment{
                 mTvBeauty.setSelected(true);
                 mTvWhitening.setSelected(false);
 
-                //seek bae init
+                //seek bar init
                 state = STATE_BEAUTY;
                 mBeautySeekbar.setProgress(mBeautyProgress);
             }
@@ -90,7 +91,7 @@ public class BeautyDialogFragment extends DialogFragment{
                 mTvBeauty.setSelected(false);
                 mTvWhitening.setSelected(true);
 
-                //seek bae init
+                //seek bar init
                 state = STATE_WHITE;
                 mBeautySeekbar.setProgress(mWhiteningProgress);
             }

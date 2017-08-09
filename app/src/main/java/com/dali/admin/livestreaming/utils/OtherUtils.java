@@ -45,6 +45,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.dali.admin.livestreaming.R;
+import com.dali.admin.livestreaming.activity.LoginActivity;
+import com.dali.admin.livestreaming.activity.MainActivity;
+import com.dali.admin.livestreaming.logic.IMLogin;
+import com.tencent.TIMFriendGenderType;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -404,12 +408,12 @@ public class OtherUtils {
 	}
 
 
-//	public static String EnumGenderToString(TIMFriendGenderType genderType) {
-//		if (TIMFriendGenderType.Male == genderType) return "男";
-//		if (TIMFriendGenderType.Female == genderType) return "女";
-//
-//		return "";
-//	}
+	public static String EnumGenderToString(TIMFriendGenderType genderType) {
+		if (TIMFriendGenderType.Male == genderType) return "男";
+		if (TIMFriendGenderType.Female == genderType) return "女";
+
+		return "";
+	}
 
 	/**
 	 * 时间格式化
@@ -746,34 +750,34 @@ public class OtherUtils {
 	 *
 	 * @param context activity
 	 */
-//	public static void showKickOutDialog(final Context context) {
-//		AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.NormalDialog);
-//		builder.setTitle(context.getResources().getString(R.string.tip_force_offline));
-//		builder.setPositiveButton("退出", new DialogInterface.OnClickListener() {
-//			@Override
-//			public void onClick(DialogInterface dialog, int which) {
-//				dialog.dismiss();
-//				IMLogin.getInstance().logout();
-//				Intent intent = new Intent(context, LoginActivity.class);
-//				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//				context.startActivity(intent);
-//			}
-//		});
-//		builder.setNegativeButton("重新登录", new DialogInterface.OnClickListener() {
-//			@Override
-//			public void onClick(DialogInterface dialog, int which) {
-//				dialog.dismiss();
-//				IMLogin.getInstance().reLogin();
-//				Intent intent = new Intent(context, MainActivity.class);
-//				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//				context.startActivity(intent);
-//			}
-//		});
-//
-//		AlertDialog alertDialog = builder.create();
-//		alertDialog.setCancelable(false);
-//		alertDialog.show();
-//	}
+	public static void showKickOutDialog(final Context context) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.NormalDialog);
+		builder.setTitle(context.getResources().getString(R.string.tip_force_offline));
+		builder.setPositiveButton("退出", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+				IMLogin.getInstace().loginOut();
+				Intent intent = new Intent(context, LoginActivity.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+				context.startActivity(intent);
+			}
+		});
+		builder.setNegativeButton("重新登录", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+				IMLogin.getInstace().reLogin();
+				Intent intent = new Intent(context, MainActivity.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+				context.startActivity(intent);
+			}
+		});
+
+		AlertDialog alertDialog = builder.create();
+		alertDialog.setCancelable(false);
+		alertDialog.show();
+	}
 
 	/**
 	 * 根据比例转化实际数值为相对值

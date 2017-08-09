@@ -125,6 +125,7 @@ public class FilterDialogFragment extends DialogFragment {
         mHorizontalPickerView.setClicked(0);
     }
 
+    //设置滤镜
     private void setFilter(int filterType) {
         mFilterType = filterType;
         Bitmap bmp = null;

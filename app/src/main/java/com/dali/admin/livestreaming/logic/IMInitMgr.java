@@ -29,7 +29,7 @@ public class IMInitMgr {
         //初始化群设置
         TIMManager.getInstance().initGroupSettings(new TIMGroupSettings());
 
-        //注册sig失败监听回调
+        //用户状态变更，这个就是实现IM互踢监听
         TIMManager.getInstance().setUserStatusListener(new TIMUserStatusListener() {
             @Override
             public void onForceOffline() {
@@ -44,7 +44,7 @@ public class IMInitMgr {
         });
 
         //初始化登录模块
-        IMLogin.getInstace();
+        IMLogin.getInstace().init(context);
 
         isSDKInit = true;
     }

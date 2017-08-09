@@ -11,40 +11,57 @@
         android:layout_centerInParent="true"
         android:visibility="gone"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/rl_controllLayer"
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
-        <LinearLayout
+        <include
+            android:id="@+id/layout_live_pusher_info"
+            layout="@layout/layout_live_pusher_info"
+            android:layout_width="110dp"
+            android:layout_height="35dp"
+            android:layout_margin="10dp" />
+
+        <RelativeLayout
             android:id="@+id/tool_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_margin="15dp"
-            android:gravity="right"
-            android:orientation="horizontal">
+            android:padding="15dp"
+            android:layout_margin="15dp">
+            <!--评论弹窗-->
+            <Button
+                android:id="@+id/btn_message_input"
+                android:layout_width="@dimen/live_btn_size"
+                android:layout_height="@dimen/live_btn_size"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/icon_message"
+                android:onClick="onClick" />
+
             <!--弹出 PopupWindow-->
             <Button
                 android:id="@+id/btn_setting"
                 android:layout_width="@dimen/live_btn_size"
                 android:layout_height="@dimen/live_btn_size"
                 android:layout_marginRight="20dp"
+                android:layout_toLeftOf="@+id/btn_close"
                 android:background="@drawable/icon_setting_up"
-                android:onClick="onClick"/>
+                android:onClick="onClick" />
             <!--退出直播-->
             <Button
                 android:id="@+id/btn_close"
                 android:layout_width="@dimen/live_btn_size"
                 android:layout_height="@dimen/live_btn_size"
+                android:layout_alignParentRight="true"
                 android:background="@drawable/btn_close"
                 android:onClick="onClick"/>
 
 
-        </LinearLayout>
+        </RelativeLayout>
 
-    </LinearLayout>
-
+    </RelativeLayout>
 
 </RelativeLayout>

@@ -70,41 +70,6 @@ public class PusherPresenter extends IPusherPresenter implements BeautyDialogFra
 
     }
 
-    public void getPushUrl(final String userId, final String groupId, final String title, final String coverPic, final String location, boolean isRecord) {
-        final CreateLiveRequest request = new CreateLiveRequest(RequestComm.createLive, userId, groupId, title, coverPic, location, isRecord ? 1 : 0);
-        Log.e("imLogin", "liveUrl:" + request.getUrl());
-        AsyncHttp.instance().postJson(request, new AsyncHttp.IHttpListener() {
-            @Override
-            public void onStart(int requestId) {
-
-            }
-
-            @Override
-            public void onSuccess(int requestId, Response response) {
-                if (response.getStatus() == RequestComm.SUCCESS) {
-                    CreateLiveResp resp = (CreateLiveResp) response.getData();
-                    if (resp != null) {
-                        if (!TextUtils.isEmpty(resp.getPushUrl())) {
-                            System.out.println("LivePublishActivity:" + resp.getPushUrl());
-                            mPusherView.onGetPushUrl(resp.getPushUrl(), 0);
-                        } else {
-                            mPusherView.onGetPushUrl(null, 1);
-                        }
-                    } else {
-                        mPusherView.onGetPushUrl(null, 1);
-                    }
-                } else {
-                    mPusherView.showMsg(response.getMsg());
-                }
-            }
-
-            @Override
-            public void onFailure(int requestId, int httpStatus, Throwable error) {
-                mPusherView.onGetPushUrl(null, 1);
-            }
-        });
-    }
-
     @Override
     public void getPusherUrl(String userId, String groupId, String title, String coverPic, String nickName, String headPic, String location, boolean isRecord) {
         Log.e("getPusherUrl",userId+","+groupId+","+title+","+coverPic+","+location+","+isRecord);

@@ -56,7 +56,7 @@ public abstract class ILivePlayerPresenter implements BasePresenter {
      * @param hostId
      * @param groupId
      */
-//    public abstract void doLike(String userId, String liveId, String hostId, String groupId);
+    public abstract void doLike(String userId, String liveId, String hostId, String groupId);
 
     /**
      * 进入直播群
@@ -66,7 +66,7 @@ public abstract class ILivePlayerPresenter implements BasePresenter {
      * @param hostId
      * @param groupId
      */
-//    public abstract void enterGroup(String userId, String liveId, String hostId, String groupId);
+    public abstract void enterGroup(String userId, String liveId, String hostId, String groupId);
 
     /**
      * 退出直播群
@@ -76,7 +76,7 @@ public abstract class ILivePlayerPresenter implements BasePresenter {
      * @param hostId
      * @param groupId
      */
-//    public abstract void quitGroup(String userId, String liveId, String hostId, String groupId);
+    public abstract void quitGroup(String userId, String liveId, String hostId, String groupId);
 
     /**
      * 当前观看直播的用户列表，限制50个人
@@ -88,6 +88,6 @@ public abstract class ILivePlayerPresenter implements BasePresenter {
      * @param pageIndex
      * @param pageSize
      */
-//    public abstract void groupMember(String userId, String liveId, String hostId, String groupId, int pageIndex, int pageSize);
+    public abstract void groupMember(String userId, String liveId, String hostId, String groupId, int pageIndex, int pageSize);
 
 }

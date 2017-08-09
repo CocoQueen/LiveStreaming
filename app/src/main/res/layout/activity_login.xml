@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_dark"
     android:id="@+id/rl_login_root"
+    android:background="@drawable/bg_dark"
     tools:context="com.dali.admin.livestreaming.activity.LoginActivity">
 
     <RelativeLayout

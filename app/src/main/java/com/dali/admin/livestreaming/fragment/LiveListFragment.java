@@ -83,10 +83,10 @@ public class LiveListFragment extends BaseFragment implements ILiveListView, Pro
     /**
      * 开始播放视频
      *
-     * @param playerUrl 视频数据
+     * @param info 直播数据
      */
-    private void startLivePlayer(String playerUrl) {
-        LivePlayerActivity.invoke(mContext, playerUrl);
+    private void startLivePlayer(LiveInfo info) {
+        LivePlayerActivity.invoke(mContext, info);
     }
 
 
@@ -114,7 +114,7 @@ public class LiveListFragment extends BaseFragment implements ILiveListView, Pro
                 Log.e(TAG, "live list item is null");
                 return;
             }
-            startLivePlayer(info.getPlayUrl());
+            startLivePlayer(info);
             Log.e(TAG, "url:" + info.getPlayUrl() + " position:" + position);
         }
         mLastClickTime = System.currentTimeMillis();

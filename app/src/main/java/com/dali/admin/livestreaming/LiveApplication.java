@@ -4,7 +4,6 @@ import android.app.Application;
 import android.util.Log;
 
 import com.dali.admin.livestreaming.logic.IMInitMgr;
-import com.dali.admin.livestreaming.logic.IMLogin;
 import com.dali.admin.livestreaming.utils.LiveLogUtil;
 import com.tencent.TIMManager;
 import com.tencent.rtmp.TXLiveBase;
@@ -47,9 +46,8 @@ public class LiveApplication extends Application{
         Log.e("imLogin",TIMManager.getInstance().getVersion());
     }
 
-    private void initSDK() {
+    public void initSDK() {
         IMInitMgr.init(getApplicationContext());
-        IMLogin.getInstace();
         TXLiveBase.getInstance().listener = new LiveLogUtil(getApplicationContext());
         Log.w("LiveLogUitil","app init sdk");
     }

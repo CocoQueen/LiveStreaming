@@ -4,11 +4,10 @@ import android.content.Context;
 import android.view.View;
 
 import com.dali.admin.livestreaming.R;
-import com.dali.admin.livestreaming.base.BaseActivity;
 import com.dali.admin.livestreaming.mvp.presenter.MainPresenter;
 import com.dali.admin.livestreaming.mvp.view.Iview.IMainView;
 
-public class MainActivity extends BaseActivity implements IMainView {
+public class MainActivity extends IMBaseActivity implements IMainView {
 
     private MainPresenter mMainPresenter;
 
