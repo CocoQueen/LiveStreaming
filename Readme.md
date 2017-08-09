@@ -84,3 +84,13 @@
 21.5、[PopupWindow 详解](http://www.cniao5.com/forum/thread/3808)
 
 21.6、[PopupWindow 封装](http://www.cniao5.com/forum/thread/3811)
+
+22.1、[播放功能封装](http://www.cniao5.com/forum/thread/3828)
+
+23.1、[IM 互踢实现单一设备登录](http://www.cniao5.com/forum/thread/3834)
+
+23.2、[IM 群组操作](http://www.cniao5.com/forum/thread/3835)
+
+24、[主播信息展示](http://www.cniao5.com/forum/thread/3836)
+
+23.3、[IM 发送消息](http://www.cniao5.com/forum/thread/3838)
